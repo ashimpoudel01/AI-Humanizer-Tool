@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI Humanizer — Plain HTML/CSS/JS</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+
+  <body>
+    <main class="container">
+      <header>
+        <h1>AI Humanizer (Plain)</h1>
+        <p class="lead">Transform AI-generated text into natural, human-sounding content.</p>
+      </header>
+
+      <div id="warning" class="warning hidden"></div>
+      <div id="honesty" class="warning hidden" style="background:#0b3b1a;color:#dff7e6;border-color:rgba(0,0,0,0.06);"></div>
+
+      <section class="grid">
+        <div class="card">
+          <h2>Input Text <span id="wordcount" class="muted">0 words</span></h2>
+          <textarea id="inputText" placeholder="Paste your AI-generated text here..." rows="12"></textarea>
+          <div class="actions">
+            <button id="humanizeBtn" class="primary">Humanize Text</button>
+            <button id="copyBtn" class="outline" disabled>Copy</button>
+            <button id="downloadBtn" class="outline" disabled>Download</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Humanized Output</h2>
+          <textarea id="outputText" readonly placeholder="Your humanized text will appear here..." rows="12"></textarea>
+          
+          <!-- AI Score Gauge -->
+          <div class="gauge-container">
+            <div class="gauge-label">AI Detection Score</div>
+            <div class="gauge-wrapper">
+              <svg class="gauge-svg" viewBox="0 0 200 120">
+                <!-- Background arc -->
+                <path d="M 20 100 A 80 80 0 0 1 180 100" 
+                      fill="none" 
+                      stroke="rgba(255,255,255,0.1)" 
+                      stroke-width="20" 
+                      stroke-linecap="round"/>
+                <!-- Colored segments -->
+                <path d="M 20 100 A 80 80 0 0 1 73 32" 
+                      fill="none" 
+                      stroke="#00c896" 
+                      stroke-width="20" 
+                      stroke-linecap="round"/>
+                <path d="M 73 32 A 80 80 0 0 1 127 32" 
+                      fill="none" 
+                      stroke="#ffd700" 
+                      stroke-width="20" 
+                      stroke-linecap="round"/>
+                <path d="M 127 32 A 80 80 0 0 1 180 100" 
+                      fill="none" 
+                      stroke="#ff4757" 
+                      stroke-width="20" 
+                      stroke-linecap="round"/>
+                <!-- Needle -->
+                <line id="gaugeNeedle" 
+                      x1="100" y1="100" 
+                      x2="100" y2="30" 
+                      stroke="white" 
+                      stroke-width="3" 
+                      stroke-linecap="round"
+                      style="transform-origin: 100px 100px; transform: rotate(-90deg); transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);"/>
+                <!-- Center dot -->
+                <circle cx="100" cy="100" r="6" fill="white"/>
+              </svg>
+              <div class="gauge-score-display">
+                <span id="gaugeScore" class="gauge-score">—</span>
+                <span class="gauge-max">/10</span>
+              </div>
+              <div id="gaugeStatus" class="gauge-status">Ready</div>
+            </div>
+          </div>
+          
+          <div class="meta">
+            <div>Readability: <span id="readability">—</span></div>
+            <div>Words: <span id="outWords">0</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="analysis card hidden" id="analysis">
+        <h3>Analysis</h3>
+        <p id="explanation"></p>
+        <h4>Visual Changes</h4>
+        <div id="visualDiff" style="line-height:1.8;font-size:15px;padding:12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.05)"></div>
+        <div style="margin-top:12px;display:flex;gap:16px;font-size:13px;color:var(--muted)">
+          <span><span style="background:#ff4757;color:white;padding:2px 6px;border-radius:4px;margin-right:4px">●</span>Changed Words</span>
+          <span><span style="background:#ffa502;color:white;padding:2px 6px;border-radius:4px;margin-right:4px">●</span>Structural Changes</span>
+          <span><span style="background:#1e90ff;color:white;padding:2px 6px;border-radius:4px;margin-right:4px">●</span>Additions</span>
+        </div>
+      </section>
+
+      <footer>
+        <small>Local demo — the backend rewrites text. If you enable OpenAI by setting <code>OPENAI_API_KEY</code>, a higher-quality AI-assisted rewrite will be used and a banner will indicate that the output was AI-assisted.</small>
+      </footer>
+    </main>
+
+    <script src="/script.js" defer></script>
+  </body>
+</html>
